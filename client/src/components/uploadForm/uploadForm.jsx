@@ -54,7 +54,7 @@ const UploadForm = ({ onDropHandler }) => {
         style={{ display: 'none' }}
         onChange={(e) => onDropHandler(e)}
       />
-      <label htmlFor='file' className='file-taker uplouder__file-taker'>
+      <label htmlFor='file' className='button uplouder__button'>
         Upload a file
       </label>
     </div>

@@ -29,7 +29,7 @@ const TotalForm = () => {
 
   return (
     <section className='uplouder-section'>
-      {avatar ? <LinkForm /> : <UploadForm onDropHandler={onDropHandler} />}
+      {!avatar ? <LinkForm /> : <UploadForm onDropHandler={onDropHandler} />}
     </section>
   );
 };
