@@ -51,7 +51,6 @@ const TotalForm = () => {
       onDropHandler();
     }
   }, [img, onDropHandler]);
-  console.log(imageLoading);
   return (
     <section className='uplouder-section'>
       {downloadedImage ? (
