@@ -1,8 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './totalForm.css';
 import axios from 'axios';
 import UploadForm from '../uploadForm/uploadForm';
 import LinkForm from '../linkForm/linkFrom';
+import LoadingForm from '../loadingForm/loadingForm';
 const TotalForm = () => {
   const [img, setImg] = useState(null);
   const [downloadedImage, setDownloadedImage] = useState(false);
@@ -20,7 +21,6 @@ const TotalForm = () => {
       if (file.type === 'image/png' || file.type === 'image/jpeg') {
         setImageLoading(true);
         setImg(file);
-        onDropHandler();
       } else {
         alert('The file must be in PNG or JPEG format.');
       }
@@ -35,7 +35,7 @@ const TotalForm = () => {
       await axios
         .post('/api/upload', data, {
           headers: {
-            'content-type': 'mulpipart/form-data',
+            'content-type': 'multipart/form-data',
           },
         })
         .then((res) => setDownloadedImage(res.data.path))
@@ -46,11 +46,18 @@ const TotalForm = () => {
       console.log(error);
     }
   }, [img]);
-
+  useEffect(() => {
+    if (img) {
+      onDropHandler();
+    }
+  }, [img, onDropHandler]);
+  console.log(imageLoading);
   return (
     <section className='uplouder-section'>
       {downloadedImage ? (
         <LinkForm downloadedImage={downloadedImage} />
+      ) : imageLoading ? (
+        <LoadingForm />
       ) : (
         <UploadForm changeImg={changeImg} />
       )}
