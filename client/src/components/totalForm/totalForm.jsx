@@ -5,22 +5,32 @@ import UploadForm from '../uploadForm/uploadForm';
 import LinkForm from '../linkForm/linkFrom';
 const TotalForm = () => {
   const [img, setImg] = useState(null);
-  const [avatar, setAvatar] = useState(false);
-
+  const [downloadedImage, setDownloadedImage] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
   const changeImg = (e) => {
+    let file;
+
     if (e.dataTransfer) {
-      setImg(e.dataTransfer.files[0]);
+      file = e.dataTransfer.files[0];
     } else if (e.target.files) {
-      setImg(e.target.files[0]);
+      file = e.target.files[0];
     }
-    onDropHandler();
+
+    if (file) {
+      if (file.type === 'image/png' || file.type === 'image/jpeg') {
+        setImageLoading(true);
+        setImg(file);
+        onDropHandler();
+      } else {
+        alert('The file must be in PNG or JPEG format.');
+      }
+    }
   };
 
   const onDropHandler = useCallback(async () => {
     try {
-      console.log('')
       const data = new FormData();
-      data.append('avatar', img);
+      data.append('downloadedImage', img);
 
       await axios
         .post('/api/upload', data, {
@@ -28,7 +38,10 @@ const TotalForm = () => {
             'content-type': 'mulpipart/form-data',
           },
         })
-        .then((res) => setAvatar(res.data.path));
+        .then((res) => setDownloadedImage(res.data.path))
+        .then(() => {
+          setImageLoading(false);
+        });
     } catch (error) {
       console.log(error);
     }
@@ -36,8 +49,8 @@ const TotalForm = () => {
 
   return (
     <section className='uplouder-section'>
-      {avatar ? (
-        <LinkForm avatar={avatar} />
+      {downloadedImage ? (
+        <LinkForm downloadedImage={downloadedImage} />
       ) : (
         <UploadForm changeImg={changeImg} />
       )}

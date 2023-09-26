@@ -3,7 +3,7 @@ const fileMiddleware = require('../middleware/file');
 
 const router = Router();
 
-router.post('/upload', fileMiddleware.single('avatar'), (req, res) => {
+router.post('/upload', fileMiddleware.single('downloadedImage'), (req, res) => {
   try {
     if (req.file) {
       res.json(req.file);

@@ -2,7 +2,7 @@ import React from 'react';
 import './linkForm.css';
 import Tick from '../../photos/tick';
 
-const LinkForm = ({ avatar }) => {
+const LinkForm = ({ downloadedImage }) => {
   const link = 'https://images.yourdomain.com/photo-1496950866446-325...';
   return (
     <div className='uplouder uplouder-section__uplouder'>
@@ -13,8 +13,8 @@ const LinkForm = ({ avatar }) => {
 
       <img
         className='downloaded-photo uplouder__downloaded-photo'
-        src={avatar}
-        alt='downloaded photo'
+        src={downloadedImage}
+        alt='downloaded'
         width='348'
         height='235'
       />
