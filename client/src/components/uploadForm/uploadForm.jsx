@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './uploadForm.css';
 import Uploud from '../../photos/upload';
-const UploadForm = ({ onDropHandler }) => {
+const UploadForm = ({ changeImg }) => {
   const [drag, setDrag] = useState(false);
 
   const dragStartHandler = (e) => {
@@ -25,7 +25,7 @@ const UploadForm = ({ onDropHandler }) => {
           onDragEnter={(e) => dragStartHandler(e)}
           onDragLeave={(e) => dragLeaveHandler(e)}
           onDragOver={(e) => dragStartHandler(e)}
-          onDrop={(e) => onDropHandler(e)}
+          onDrop={(e) => changeImg(e)}
         >
           <div className='drag__photo'>
             <Uploud />
@@ -52,7 +52,7 @@ const UploadForm = ({ onDropHandler }) => {
         id='file'
         accept='image/,.png,.jpeg'
         style={{ display: 'none' }}
-        onChange={(e) => onDropHandler(e)}
+        onChange={(e) => changeImg(e)}
       />
       <label htmlFor='file' className='button uplouder__button'>
         Upload a file

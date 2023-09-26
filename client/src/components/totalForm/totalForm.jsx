@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import './totalForm.css';
 import axios from 'axios';
 import UploadForm from '../uploadForm/uploadForm';
@@ -7,29 +7,40 @@ const TotalForm = () => {
   const [img, setImg] = useState(null);
   const [avatar, setAvatar] = useState(false);
 
-  const onDropHandler = (e) => {
-    e.preventDefault();
-    let files = [];
+  const changeImg = (e) => {
     if (e.dataTransfer) {
-      files = [...e.dataTransfer.files];
+      setImg(e.dataTransfer.files[0]);
     } else if (e.target.files) {
-      files = [...e.target.files];
+      setImg(e.target.files[0]);
     }
-    const allowedTypes = ['image/jpeg', 'image/png'];
-
-    files = files.filter((file) => allowedTypes.includes(file.type));
-
-    if (files.length !== 0) {
-      console.log('request is loading');
-      const formData = new FormData();
-      formData.append('file', files[0]);
-      axios.post('url', formData);
-    }
+    onDropHandler();
   };
+
+  const onDropHandler = useCallback(async () => {
+    try {
+      console.log('')
+      const data = new FormData();
+      data.append('avatar', img);
+
+      await axios
+        .post('/api/upload', data, {
+          headers: {
+            'content-type': 'mulpipart/form-data',
+          },
+        })
+        .then((res) => setAvatar(res.data.path));
+    } catch (error) {
+      console.log(error);
+    }
+  }, [img]);
 
   return (
     <section className='uplouder-section'>
-      {!avatar ? <LinkForm /> : <UploadForm onDropHandler={onDropHandler} />}
+      {avatar ? (
+        <LinkForm avatar={avatar} />
+      ) : (
+        <UploadForm changeImg={changeImg} />
+      )}
     </section>
   );
 };
