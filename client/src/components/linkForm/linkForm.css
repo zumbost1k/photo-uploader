@@ -1,0 +1,25 @@
+.link-container {
+    display: flex;
+    border-radius: 8px;
+    border: 1px solid var(--Gray-5, #E0E0E0);
+    background: #F6F8FB;
+    align-items: center;
+}
+
+.link-container__button {
+    padding: 9px 20px;
+    margin: 3px;
+}
+
+.link-container__link-text {
+    padding: 0px 14px 0px 8px;
+}
+
+.uplouder__link-container {
+    margin-top: 36px;
+    font-size: 13px;
+}
+
+.uplouder__downloaded-photo {
+    margin-top: 36px;
+}
